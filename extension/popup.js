@@ -10,11 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            
-
-            // Send message to content script
-            await chrome.tabs.sendMessage(tab.id, { action: 'sanitize' });
-            statusDiv.textContent = 'Sanitization in progress...';
+            const response = await chrome.runtime.sendMessage({ action: 'sanitize', text: "This is example text. (123) 456-7890."});
+            statusDiv.textContent = 'Sanitized text: ' + response.sanitizedText;
         } catch (error) {
             statusDiv.textContent = 'popup.js Error: ' + error.message;
         }

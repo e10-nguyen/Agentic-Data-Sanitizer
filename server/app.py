@@ -11,14 +11,8 @@ def sanitize_text(text: str) -> str:
     """Sanitize text by removing sensitive patterns"""
     sanitized = text
     
-    # Remove email addresses
-    sanitized = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '[REDACTED_EMAIL]', sanitized)
-    
     # Remove phone numbers
-    sanitized = re.sub(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', '[REDACTED_PHONE]', sanitized)
-    
-    # Remove credit card numbers
-    sanitized = re.sub(r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b', '[REDACTED_CC]', sanitized)
+    sanitized = re.sub(r'\d{3}[-.]?\d{4}\b', '[REDACTED_PHONE]', sanitized)
     
     return sanitized
 
