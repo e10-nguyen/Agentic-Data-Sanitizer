@@ -8,11 +8,16 @@ class TextData(BaseModel):
     text: str
 
 def sanitize_text(text: str) -> str:
-    """Sanitize text by removing sensitive patterns"""
+    """
+    This acts as the main sanitization function.
+    Here, we can call a LLM agent to respond with sanitized text.
+    """
     sanitized = text
     
-    # Remove phone numbers
-    sanitized = re.sub(r'\d{3}[-.]?\d{4}\b', '[REDACTED_PHONE]', sanitized)
+    # EXAMPLE: Remove phone numbers
+    sanitized = re.sub(r'\d{3}[-.]?\d{4}\b', '[PHONE_NUMBER]', sanitized)
+
+    # Do any other sanitization here... call LLM and do post processing...
     
     return sanitized
 

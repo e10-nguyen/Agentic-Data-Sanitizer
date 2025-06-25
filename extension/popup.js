@@ -10,10 +10,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const response = await chrome.runtime.sendMessage({ action: 'sanitize', text: "This is example text. (123) 456-7890."});
-            statusDiv.textContent = 'Sanitized text: ' + response.sanitizedText;
+            // Get the text from the content script.
+            statusDiv.textContent = 'Retrieving text...';
+            const text = await chrome.tabs.sendMessage(tab.id, { action: 'getbody' });
+
+            // Send the text to be sanitized.
+            statusDiv.textContent = 'Sanitization in progress...';
+            const response = await chrome.runtime.sendMessage({ action: 'sanitize', text: text.body });
+
+            // Updates the HTML of the page.
+            statusDiv.textContent = 'Updating HTML';
+            chrome.tabs.sendMessage(tab.id, { action: 'updateHTML', html: response.sanitizedText });
+
+            // Display the sanitized text.
+            statusDiv.textContent = 'Redaction complete.';
+
         } catch (error) {
-            statusDiv.textContent = 'popup.js Error: ' + error.message;
+            statusDiv.textContent = 'popup.js Error: ' + error.message + "\nTry reloading the page or type in a URL.";
         }
     });
 });

@@ -3,6 +3,7 @@ chrome.runtime.onInstalled.addListener(() => {
     console.log('Agentic Data Sanitizer extension installed');
 });
 
+// Right now the server is locally hosted, this can be replaced with a remote server later.
 const server = 'http://localhost:3000/api/sanitize';
 
 // Handle messages from content scripts
