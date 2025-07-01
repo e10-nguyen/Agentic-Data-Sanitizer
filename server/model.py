@@ -5,7 +5,7 @@ except:
     
 class Model:
     """A base class for models to be used in agent.py."""
-    
+
     def __init__(self):
         pass
 
@@ -24,6 +24,23 @@ class GPT_4_1(Model):
         self.client = AzureOpenAI(api_version=api_version,
                                   azure_endpoint=endpoint,
                                   api_key=GPT_4_1_SECRET_KEY)
+        
+    def create_instructed_response(self, instruction, text):
+        response = self.client.responses.create(
+            model=self.model,
+            input=[
+                {
+                    "role": "developer",
+                    "content": instruction
+                },
+                {
+                    "role": "user",
+                    "content": text
+                }
+            ]
+        )
+
+        return response.output_text
         
     def create_response(self, text):
         response = self.client.responses.create(
