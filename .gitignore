@@ -1,2 +1,3 @@
 server/secret.py
 *.pyc
+server/agent/secret.py
